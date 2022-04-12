@@ -8,6 +8,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Container(),
+      floatingActionButton: IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.add),
+      ),
     );
   }
 }
