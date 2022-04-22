@@ -1,18 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:study_flutter_firestore/app/shared/models/product.dart';
 
 class Purchase {
-  String? id;
   DateTime date;
   List<Product> products;
 
   Purchase({
-    this.id,
     required this.date,
     required this.products,
   });
 
   factory Purchase.fromJson(Map<String, dynamic> json) {
-    final listedProducts = List.from(json['products']);
+    final listedProducts = json['products'] as List;
     final extractedProducts = <Product>[];
 
     for (var p in listedProducts) {
@@ -20,22 +19,23 @@ class Purchase {
       extractedProducts.add(product);
     }
 
+    final Timestamp timestamp = json['date'];
+
     return Purchase(
-      date: json['date'],
+      date: timestamp.toDate(),
       products: extractedProducts,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final mappedProducts = <String, dynamic>{};
+    final mappedProducts = [];
 
     for (var p in products) {
       final product = p.toJson();
-      mappedProducts.addAll(product);
+      mappedProducts.add(product);
     }
 
     final map = <String, dynamic>{
-      'document_id': id,
       'date': date,
       'products': mappedProducts,
     };
