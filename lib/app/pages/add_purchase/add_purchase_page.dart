@@ -61,11 +61,12 @@ class _AddPurchasePageState extends State<AddPurchasePage> {
 
     for (var i = 0; i < _productsCount; i++) {
       final price =
-          _productPriceControllers[i].text.replaceAll(',', '.').substring(4, 7);
+          _productPriceControllers[i].text.replaceAll(',', '.').substring(4, 8);
+      final parsedPrice = double.tryParse(price) ?? 0.0;
 
       final product = Product(
         name: _productNameControllers[i].text,
-        price: double.tryParse(price) ?? 0.0,
+        price: parsedPrice,
       );
 
       products.add(product);
@@ -77,6 +78,7 @@ class _AddPurchasePageState extends State<AddPurchasePage> {
     );
 
     DataRepository.instance.addPurchase(purchase);
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   String? _validateTextField(String? inputText) {
